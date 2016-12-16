@@ -1,0 +1,22 @@
+{
+  "name": "first-mongo",
+  "version": "0.1.0",
+  "description": "A MongoDB exercise",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "nodemon app.js 8001"
+  },
+  "author": "Jose Carlos Bonilla",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.16",
+    "nunjucks": "^3.0.0",
+    "validator": "^6.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

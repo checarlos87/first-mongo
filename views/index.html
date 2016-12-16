@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Pok&eacute;mon Registry</h1>
+<form id="register-form" action="/pokemon" method="POST">
+    Pok&eacute;mon species:<br />
+    <input type="text" name="species"><br />
+    Level:<br />
+    <input type="text" name="level"><br />
+    <h2>Stats:</h2>
+    <div id="stats-input">
+        HP:          <input type="text" name="hp"><br />
+        Attack:      <input type="text" name="atk"><br />
+        Defense:     <input type="text" name="def"><br />
+        Sp. Attack:  <input type="text" name="spa"><br />
+        Sp. Defense: <input type="text" name="spd"><br />
+        Speed:       <input type="text" name="spe"><br />
+    </div>
+    <input id="register-button" type="submit" value="Register">
+</form>
+{% endblock %}
