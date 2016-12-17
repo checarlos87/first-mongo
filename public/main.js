@@ -3,7 +3,7 @@ function main() {
         ev.preventDefault()
         $.ajax({
             type: "POST",
-            url: "/pokemon",
+            url: "/api/pokemon",
             data: {
                 species: $('input[name=species]').val(),
                 level: $('input[name=level]').val(),
@@ -16,7 +16,7 @@ function main() {
             },
             dataType: "json",
             success: (results) => {
-                if (results.status === 'OK')
+                if (results.status === 'OK') {
                     $('#register-button').notify(
                         "Pokémon registered successfully!",
                         {
@@ -24,6 +24,9 @@ function main() {
                             className: 'success'
                         }
                     )
+
+                    $('#register-form')[0].reset()
+                }
             }
         })
     })

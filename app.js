@@ -32,17 +32,36 @@ app.get('/', (req, res, next) => {
 })
 
 // GET all Pokemon
-app.get('/pokemon', (req, res, next) => {
+app.get('/api/pokemon', (req, res, next) => {
     db.collection('pokemon').find().toArray((err, results) => {
         res.send(results)
     })
 })
 
-// GET all registered Pikachu
-app.get('/pikachu', (req, res, next) => {
+// GET specific species of Pokemon
+app.get('/api/pokemon/:species', (req, res, next) => {
     db.collection('pokemon').find(
-        { 
-            species: 'Pikachu'
+        {
+            species: {
+                $regex: new RegExp('^' + req.params.species, 'i')
+            }
+        }
+    ).toArray((err, results) => {
+        res.send(results)
+    })
+})
+
+// GET a specific stat from all individuals of a given species
+app.get('/api/pokemon/:species/:stat', (req, res, next) => {
+    db.collection('pokemon').find(
+        {
+            species: {
+                $regex: new RegExp('^' + req.params.species, 'i')
+            }
+        },
+        {
+            [req.params.stat]: 1
+            
         }
     ).toArray((err, results) => {
         res.send(results)
@@ -50,7 +69,7 @@ app.get('/pikachu', (req, res, next) => {
 })
 
 // POST a new Pokemon
-app.post('/pokemon', (req, res, next) => {
+app.post('/api/pokemon', (req, res, next) => {
 
     console.log(req.body)
 
