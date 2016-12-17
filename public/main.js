@@ -6,7 +6,9 @@ function main() {
             url: "/api/pokemon",
             data: {
                 species: $('input[name=species]').val(),
-                level: $('input[name=level]').val(),
+                dex: $('input[name=dex-num]').val(),
+                type1: $('input[name=type-1]').val(),
+                type2: $('input[name=type-2]').val(),
                 hp: $('input[name=hp]').val(),
                 atk: $('input[name=atk]').val(),
                 def: $('input[name=def]').val(),
