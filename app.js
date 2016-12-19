@@ -45,6 +45,15 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
 
     db = database
 
+    /** 
+        Load API routes
+            Info: 
+                http://stackoverflow.com/a/25125755
+                https://expressjs.com/en/guide/routing.html
+                http://javascript.tutorialhorizon.com/2014/09/20/organizing-your-expressjs-routes-in-separate-files/
+    */
+    app.use('/api', require('./routes/api')(db))
+
     // Set up db indexes.
     async.series({
         species: (callback) => { 
@@ -94,110 +103,6 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
 app.get('/', (req, res, next) => {
     res.render('index.html', {types: TYPES})
 })
-
-// API routes
-//app.use('/api', require('./routes/api')(db))
-
-
-// GET all Pokemon
-app.get('/api/pokemon', (req, res, next) => {
-    db.collection('pokemon').find().toArray((err, results) => {
-
-        if (err)
-            return next(err)
-
-        res.send(results)
-    })
-})
-
-// GET all info for a species of Pokemon
-app.get('/api/pokemon/:species', (req, res, next) => {
-    db.collection('pokemon').find(
-        {
-            $text: {
-                $search: req.params.species, 
-                $caseSensitive: false
-            }
-        },
-        {
-            _id: 0
-        }
-    ).toArray((err, results) => {
-
-        if (err)
-            return next(err)
-
-        res.send(results[0])
-    })
-})
-
-// GET types for a given species
-app.get('/api/pokemon/:species/type', (req, res, next) => {
-    db.collection('pokemon').find(
-        {
-            $text: {
-                $search: req.params.species,
-                $caseSensitive: false
-            }
-        },
-        {
-            species: 1,
-            type1: 1,
-            type2: 1,
-            _id: 0
-        } 
-    ).toArray((err, results) => {
-
-        if (err)
-            return next(err)
-
-        res.send(results[0])
-    })
-})
-
-// GET a specific base stat for a given species
-app.get('/api/pokemon/:species/:stat', (req, res, next) => {
-    db.collection('pokemon').find(
-        {
-            $text: {
-                $search: req.params.species, 
-                $caseSensitive: false
-            }
-        },
-        {
-            species: 1,
-            [req.params.stat]: 1,
-            _id: 0
-        }
-    ).toArray((err, results) => {
-
-        if (err)
-            return next(err)
-
-        res.send(results[0])
-    })
-})
-
-// POST a new Pokemon
-app.post('/api/pokemon', (req, res, next) => {
-
-//    console.log(req.body) // debug
-
-    db.collection('pokemon').insertOne(req.body, (err, result) => {
-
-        if (err) {
-
-            // duplicate key detected
-            if (err.code === 11000)
-                return res.json({status: 'duplicate'})
-
-            return next(err) 
-        }
-
-        res.json({status: 'OK'})
-    }) 
-})
-
 
 app.use((err, req, res, next) => {
     console.log(err.stack)
