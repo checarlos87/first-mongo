@@ -7,7 +7,12 @@ module.exports = (db) => {
 
     // GET all Pokemon
     router.get('/pokemon', (req, res, next) => {
-        db.collection('pokemon').find().toArray((err, results) => {
+        db.collection('pokemon').find(
+            {}, 
+            {
+                _id: 0
+            }
+        ).toArray((err, results) => {
     
             if (err)
                 return next(err)
