@@ -106,6 +106,30 @@ app.get('/api/pokemon/:species', (req, res, next) => {
     })
 })
 
+// GET types for a given species
+app.get('/api/pokemon/:species/type', (req, res, next) => {
+    db.collection('pokemon').find(
+        {
+            $text: {
+                $search: req.params.species,
+                $caseSensitive: false
+            }
+        },
+        {
+            species: 1,
+            type1: 1,
+            type2: 1,
+            _id: 0
+        } 
+    ).toArray((err, results) => {
+
+        if (err)
+            return next(err)
+
+        res.send(results[0])
+    })
+})
+
 // GET a specific base stat for a given species
 app.get('/api/pokemon/:species/:stat', (req, res, next) => {
     db.collection('pokemon').find(
