@@ -36,6 +36,16 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
             })
         },
 
+        dex: (callback) => {
+            db.collection('pokemon').createIndex('dex', {unique: true}, (err, index) => {
+
+                if (err)
+                    return callback(err)
+
+                callback(null, index)
+            })
+        },
+
         type: (callback) => {
             db.collection('pokemon').createIndex({species: 'text', type1: 'text', type2: 'text'}, (err, index) => {
 
@@ -56,7 +66,7 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
         app.listen(port, () => {
             console.log("Listening on port " + port)
         })
-    })
+    }) //async.series
 
 })
 

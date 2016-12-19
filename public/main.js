@@ -32,7 +32,7 @@ function main() {
 
                 else if (results.status === 'duplicate') {
                     $('#register-button').notify(
-                        "Error: Pokémon already registered.",
+                        "Error: Pokémon or dex number already registered.",
                         {
                             position: 'bottom',
                             className: 'error'
