@@ -18,8 +18,6 @@ app.use(bodyParser.urlencoded({extended: true}))
 var port = process.argv[2]
 
 var db
-//var type1Index
-//var type2Index
 mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
     if (err) 
         return console.log(err.message)
@@ -39,7 +37,7 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
         },
 
         type: (callback) => {
-            db.collection('pokemon').createIndex({type1: 'text', type2: 'text'}, (err, index) => {
+            db.collection('pokemon').createIndex({species: 'text', type1: 'text', type2: 'text'}, (err, index) => {
 
                 if (err)
                     return callback(err)
@@ -69,6 +67,10 @@ app.get('/', (req, res, next) => {
 // GET all Pokemon
 app.get('/api/pokemon', (req, res, next) => {
     db.collection('pokemon').find().toArray((err, results) => {
+
+        if (err)
+            return next(err)
+
         res.send(results)
     })
 })
@@ -77,14 +79,19 @@ app.get('/api/pokemon', (req, res, next) => {
 app.get('/api/pokemon/:species', (req, res, next) => {
     db.collection('pokemon').find(
         {
-            species: {
-                $regex: new RegExp('^' + req.params.species, 'i')
+            $text: {
+                $search: req.params.species, 
+                $caseSensitive: false
             }
         },
         {
             _id: 0
         }
     ).toArray((err, results) => {
+
+        if (err)
+            return next(err)
+
         res.send(results[0])
     })
 })
@@ -93,9 +100,10 @@ app.get('/api/pokemon/:species', (req, res, next) => {
 app.get('/api/pokemon/:species/:stat', (req, res, next) => {
     db.collection('pokemon').find(
         {
-            species: {
-                $regex: new RegExp('^' + req.params.species, 'i')
-            },
+            $text: {
+                $search: req.params.species, 
+                $caseSensitive: false
+            }
         },
         {
             species: 1,
@@ -103,6 +111,10 @@ app.get('/api/pokemon/:species/:stat', (req, res, next) => {
             _id: 0
         }
     ).toArray((err, results) => {
+
+        if (err)
+            return next(err)
+
         res.send(results[0])
     })
 })
