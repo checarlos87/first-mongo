@@ -29,6 +29,19 @@ function main() {
 
                     $('#register-form')[0].reset()
                 }
+
+                else if (results.status === 'duplicate') {
+                    $('#register-button').notify(
+                        "Error: Pokémon already registered.",
+                        {
+                            position: 'bottom',
+                            className: 'error'
+                        }
+                    )
+
+                    $('#register-form')[0].reset()
+                }
+
             }
         })
     })
