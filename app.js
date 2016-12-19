@@ -11,9 +11,30 @@ nunjucks.configure('views', {
     express: app
 })
 
+const TYPES = [
+    'Bug',
+    'Dark',
+    'Dragon',
+    'Electric',
+    'Fairy',
+    'Fighting',
+    'Fire',
+    'Flying',
+    'Ghost',
+    'Grass',
+    'Ground',
+    'Ice',
+    'Normal',
+    'Poison',
+    'Psychic',
+    'Rock',
+    'Steel',
+    'Water'
+]
+
+// Middlewares
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
-
 
 var port = process.argv[2]
 
@@ -71,8 +92,12 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
 })
 
 app.get('/', (req, res, next) => {
-    res.render('index.html', {})
+    res.render('index.html', {types: TYPES})
 })
+
+// API routes
+//app.use('/api', require('./routes/api')(db))
+
 
 // GET all Pokemon
 app.get('/api/pokemon', (req, res, next) => {
@@ -172,6 +197,7 @@ app.post('/api/pokemon', (req, res, next) => {
         res.json({status: 'OK'})
     }) 
 })
+
 
 app.use((err, req, res, next) => {
     console.log(err.stack)

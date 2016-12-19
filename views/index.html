@@ -5,12 +5,25 @@
 <form id="register-form" method="POST">
     Pok&eacute;mon species:<br />
     <input type="text" name="species"><br />
+
     Dex number:<br />
     <input type="text" name="dex-num"><br />
-    Type 1:<br />
-    <input type="text" name="type-1"><br />
-    Type 2:<br />
-    <input type="text" name="type-2"><br />
+
+    Type 1:
+    <select name="type-1">
+        {% for type in types %}
+            <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+    </select>
+
+    Type 2:
+    <select name="type-2">
+            <option value="None">--None--</option>
+        {% for type in types %}
+            <option value="{{ type }}">{{ type }}</option>
+        {% endfor %}
+    </select><br />
+
     <h2>Base Stats:</h2>
     <div id="stats-input">
         HP:          <input type="text" name="hp"><br />
@@ -20,6 +33,7 @@
         Sp. Defense: <input type="text" name="spd"><br />
         Speed:       <input type="text" name="spe"><br />
     </div>
+
     <input id="register-button" type="submit" value="Register">
 </form>
 {% endblock %}

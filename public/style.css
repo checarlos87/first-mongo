@@ -17,3 +17,8 @@ input[type=text] {
     background: #ededed;
     border: none;
 }
+
+select {
+    background: #ededed;
+    border: none;
+}
