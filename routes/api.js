@@ -47,7 +47,6 @@ module.exports = (db) => {
                 }
             },
             {
-                species: 1,
                 type1: 1,
                 type2: 1,
                 _id: 0
@@ -71,7 +70,6 @@ module.exports = (db) => {
                 }
             },
             {
-                species: 1,
                 [req.params.stat]: 1,
                 _id: 0
             }
@@ -113,7 +111,6 @@ module.exports = (db) => {
                 }
             },
             {
-                species: 1,
                 type1: 1,
                 type2: 1,
                 _id: 0

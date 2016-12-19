@@ -13,23 +13,11 @@ function main() {
             return
         }
 
-        if (!$('input[name=dex-num]').val()) {
-            $('input[name=dex-num]').notify(
-                "You must specify a Pokédex number.",
-                {
-                    position: 'right',
-                    className: 'error'
-                }
-            )
-            return
-        }
-        
         $.ajax({
             type: "POST",
             url: "/api/pokemon",
             data: {
                 species: $('input[name=species]').val(),
-                dex: $('input[name=dex-num]').val(),
                 type1: $('select[name=type-1]').val(),
                 type2: $('select[name=type-2]').val(),
                 hp: $('input[name=hp]').val(),
@@ -55,7 +43,7 @@ function main() {
 
                 else if (results.status === 'duplicate') {
                     $('#register-button').notify(
-                        "Error: Pokémon or dex number already registered.",
+                        "Error: Pokémon is already registered.",
                         {
                             position: 'bottom',
                             className: 'error'
