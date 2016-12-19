@@ -73,21 +73,8 @@ app.get('/api/pokemon', (req, res, next) => {
     })
 })
 
-// GET specific species of Pokemon
+// GET all info for a species of Pokemon
 app.get('/api/pokemon/:species', (req, res, next) => {
-    db.collection('pokemon').find(
-        {
-            species: {
-                $regex: new RegExp('^' + req.params.species, 'i')
-            }
-        }
-    ).toArray((err, results) => {
-        res.send(results)
-    })
-})
-
-// GET a specific stat from all individuals of a given species
-app.get('/api/pokemon/:species/:stat', (req, res, next) => {
     db.collection('pokemon').find(
         {
             species: {
@@ -95,11 +82,28 @@ app.get('/api/pokemon/:species/:stat', (req, res, next) => {
             }
         },
         {
-            [req.params.stat]: 1
-            
+            _id: 0
         }
     ).toArray((err, results) => {
-        res.send(results)
+        res.send(results[0])
+    })
+})
+
+// GET a specific base stat for a given species
+app.get('/api/pokemon/:species/:stat', (req, res, next) => {
+    db.collection('pokemon').find(
+        {
+            species: {
+                $regex: new RegExp('^' + req.params.species, 'i')
+            },
+        },
+        {
+            species: 1,
+            [req.params.stat]: 1,
+            _id: 0
+        }
+    ).toArray((err, results) => {
+        res.send(results[0])
     })
 })
 
