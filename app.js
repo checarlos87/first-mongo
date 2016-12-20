@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 var port = process.argv[2]
 
 var db
-mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
+mongoClient.connect('mongodb://localhost:27017/restfulpokemon', (err, database) => {
     if (err) 
         return console.log(err.message)
 
