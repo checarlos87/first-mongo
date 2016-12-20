@@ -47,20 +47,51 @@ function main() {
                     $('#register-form')[0].reset()
                 }
 
-                else if (results.status === 'duplicate') {
-                    $('#register-button').notify(
-                        "Error: Pokémon is already registered.",
-                        {
-                            position: 'bottom',
-                            className: 'error'
-                        }
-                    )
+                else if (results.status === 'error') {
 
-                    $('#register-form')[0].reset()
+                    if (results.message === 'empty key') {
+                        $('#register-button').notify(
+                            "All fields are required.",
+                            {
+                                position: 'bottom',
+                                className: 'error'
+                            }
+                        )
+                    }
+        
+                    else if (results.message === 'duplicate') {
+                        $('#register-button').notify(
+                            "Error: Pokémon is already registered.",
+                            {
+                                position: 'bottom',
+                                className: 'error'
+                            }
+                        )
+    
+                        $('#register-form')[0].reset()
+                    }
+
                 }
-
             }
         })
+    }) // Pokémon register form.
+
+    $('#delete-button').on('click', (ev) => {
+        ev.preventDefault()
+        var answer = confirm('Do you really want to delete this Pokémon?')
+        if (answer) {
+
+            $.ajax({
+                type: "POST",
+                url: $('#delete-button').attr('href'),
+                dataType: "json",
+                success: (results) => {
+                    alert('The Pokémon has been deleted successfully.')
+                    window.location.replace('/')
+                }
+            })
+        }
+
     })
 }
 

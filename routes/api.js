@@ -86,19 +86,25 @@ module.exports = (db) => {
     
     // POST a new Pokemon through an AJAX call
     router.post('/pokemon', (req, res, next) => {
-    
+
+        for (var key in req.body) {
+            if (req.body.hasOwnProperty(key))
+                if (req.body[key] === '')
+                    return res.json({status: 'error', message: 'empty key'})
+        }
+
         db.collection('pokemon').insertOne(req.body, (err, result) => {
     
             if (err) {
     
                 // duplicate key detected
                 if (err.code === 11000)
-                    return res.json({status: 'duplicate'})
+                    return res.json({status: 'error', message: 'duplicate'})
     
                 return next(err) 
             }
     
-            res.json({status: 'OK'})
+            res.json({status: 'OK', message: ''})
         }) 
     })
 
@@ -127,6 +133,38 @@ module.exports = (db) => {
         })
     })
 
+    /** /delete route **/
+
+    router.post('/delete/:species', (req, res, next) => {
+
+        if (!req.xhr)
+            return res.resdirect('/')
+
+        var query = req.params.species[0].toUpperCase() + req.params.species.slice(1)
+        db.collection('pokemon').remove(
+            {
+                species: query
+            },
+            {
+                single: true
+            }
+        )
+
+        res.json({status: 'OK', message: ''})
+    })
+
     return router
 }
+
+
+
+
+
+
+
+
+
+
+
+
 

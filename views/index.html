@@ -1,36 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Register New Pok&eacute;mon</h2>
-<form id="register-form" method="POST">
-    Pok&eacute;mon species:<br />
-    <input type="text" name="species"><br />
-
-    Type 1:
-    <select name="type-1">
-        {% for type in types %}
-            <option value="{{ type }}">{{ type }}</option>
-        {% endfor %}
-    </select>
-
-    Type 2:
-    <select name="type-2">
-            <option value="None">--None--</option>
-        {% for type in types %}
-            <option value="{{ type }}">{{ type }}</option>
-        {% endfor %}
-    </select><br />
-
-    <h3>Base Stats:</h3>
-    <div id="stats-input">
-        HP:          <input type="text" name="hp"><br />
-        Attack:      <input type="text" name="atk"><br />
-        Defense:     <input type="text" name="def"><br />
-        Sp. Attack:  <input type="text" name="spa"><br />
-        Sp. Defense: <input type="text" name="spd"><br />
-        Speed:       <input type="text" name="spe"><br />
-    </div>
-
-    <input id="register-button" type="submit" value="Register">
-</form>
+<div id="sub-main-container">
+    <h2>Register New Pok&eacute;mon</h2>
+    <form id="register-form" method="POST">
+        <div class="form-div">
+            Pok&eacute;mon species:<br />
+            <input type="text" name="species">
+        </div>
+    
+        <div class="form-div">
+            Type 1:
+            <select name="type-1">
+                {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+        
+            Type 2:
+            <select name="type-2">
+                    <option value="None">--None--</option>
+                {% for type in types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div id="stats-form-div" class="form-div">
+            <h3>Base Stats:</h3>
+            <div id="stats-input">
+                HP:          <input type="text" name="hp"><br />
+                Attack:      <input type="text" name="atk"><br />
+                Defense:     <input type="text" name="def"><br />
+                Sp. Attack:  <input type="text" name="spa"><br />
+                Sp. Defense: <input type="text" name="spd"><br />
+                Speed:       <input type="text" name="spe"><br />
+            </div>
+        </div>
+    
+        <div class="form-div">
+            <input id="register-button" type="submit" value="Register">
+        </div>
+    </form>
+</div>
 {% endblock %}
