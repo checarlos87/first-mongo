@@ -23,12 +23,11 @@ module.exports = (db) => {
     
     // GET all info for a species of Pokemon
     router.get('/pokemon/:species', (req, res, next) => {
+
+        var query = req.params.species[0].toUpperCase() + req.params.species.slice(1)
         db.collection('pokemon').find(
             {
-                $text: {
-                    $search: req.params.species, 
-                    $caseSensitive: false
-                }
+                species: query
             },
             {
                 _id: 0
@@ -44,12 +43,11 @@ module.exports = (db) => {
     
     // GET types for a given species
     router.get('/pokemon/:species/type', (req, res, next) => {
+
+        var query = req.params.species[0].toUpperCase() + req.params.species.slice(1)
         db.collection('pokemon').find(
             {
-                $text: {
-                    $search: req.params.species,
-                    $caseSensitive: false
-                }
+                species: query
             },
             {
                 type1: 1,
@@ -67,12 +65,11 @@ module.exports = (db) => {
     
     // GET a specific base stat for a given species
     router.get('/pokemon/:species/:stat', (req, res, next) => {
+
+        var query = req.params.species[0].toUpperCase() + req.params.species.slice(1)
         db.collection('pokemon').find(
             {
-                $text: {
-                    $search: req.params.species, 
-                    $caseSensitive: false
-                }
+                species: query
             },
             {
                 [req.params.stat]: 1,

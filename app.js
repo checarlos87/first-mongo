@@ -67,7 +67,7 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
         },
 
         type: (callback) => {
-            db.collection('pokemon').createIndex({species: 'text', type1: 'text', type2: 'text'}, (err, index) => {
+            db.collection('pokemon').createIndex({type1: 'text', type2: 'text'}, (err, index) => {
 
                 if (err)
                     return callback(err)
