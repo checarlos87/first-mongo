@@ -55,7 +55,7 @@ The app is meant to register information on Pokémon species and not on specific
 * example: ```/api/pokemon/pikachu/hp```
 * returns: A JSON opject with the value of the requested stat.
 
-Note: The names accepted in <stat name> are shortened versions of the actual names.  The accepted values for each stat are as follows.
+Note: The names accepted in \<stat name> are shortened versions of the actual names.  The accepted values for each stat are as follows.
 
 * HP: ```hp```
 * Attack: ```atk```
@@ -69,14 +69,3 @@ Note: The names accepted in <stat name> are shortened versions of the actual nam
 * url: ```/api/type/<type name>```
 * example: ```/api/type/electric```
 * returns: An array of JSON objects, each containing the name of a Pokémon of the secified type, its types, and each of its base stats.
-
-
-
-
-
-
-
-
-
-
-
