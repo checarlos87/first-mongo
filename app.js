@@ -99,6 +99,9 @@ app.get('/', (req, res, next) => {
 app.get('/search', (req, res, next) => {
 
     // Make the first letter of Pokémon name upper-case.
+    if (req.query.pokemon === '')
+        return res.redirect('/')
+
     var query = req.query.pokemon[0].toUpperCase() + req.query.pokemon.slice(1)
     db.collection('pokemon').find(
         {

@@ -1,4 +1,10 @@
 function main() {
+    
+    $('#search-box').on('submit', (ev) => {
+        if (!$('input[name=pokemon]').val())
+            ev.preventDefault()
+    })
+
     $('#register-form').on('submit', (ev) => {
         ev.preventDefault()
 
