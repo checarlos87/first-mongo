@@ -90,8 +90,27 @@ mongoClient.connect('mongodb://localhost:27017/mogoapp', (err, database) => {
 
 })
 
+// Index. Pokémon Registry form.
 app.get('/', (req, res, next) => {
     res.render('index.html', {types: TYPES})
+})
+
+// Search Results.
+app.get('/search', (req, res, next) => {
+    db.collection('pokemon').find(
+        {
+            species: req.query.pokemon
+        },
+        {
+            _id: 0
+        }
+    ).toArray((err, results) => {
+        
+        if (err)
+            return next(err)
+
+        res.render('search_results.html', {result: results[0]})
+    })
 })
 
 app.use((err, req, res, next) => {

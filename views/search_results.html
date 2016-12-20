@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Search Result:</h2>
+    {% if result %}
+        <h1>{{ result.species }}</h1>
+    
+        {% if result.type2 != "None" %}
+            <p>Type: {{ result.type1 }}/{{ result.type2 }}</p>
+        {% else %}
+            <p>Type: {{ result.type1 }}</p>
+        {% endif %}
+    
+        <ul>
+            <li><strong>HP</strong>: {{ result.hp }}</li>
+            <li><strong>Attack</strong>: {{ result.atk }}</li>
+            <li><strong>Defense</strong>: {{ result.def }}</li>
+            <li><strong>Sp. Atk</strong>: {{ result.spa }}</li>
+            <li><strong>Sp. Def</strong>: {{ result.spd }}</li>
+            <li><strong>Speed</strong>: {{ result.spe }}</li>
+        </ul>
+
+    {% else %}
+        <p><em>No results were found.</em></p>
+    {% endif %}
+{% endblock %}

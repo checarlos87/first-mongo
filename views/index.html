@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Pok&eacute;mon Registry</h1>
+<h2>Register New Pok&eacute;mon</h2>
 <form id="register-form" method="POST">
     Pok&eacute;mon species:<br />
     <input type="text" name="species"><br />
@@ -21,7 +21,7 @@
         {% endfor %}
     </select><br />
 
-    <h2>Base Stats:</h2>
+    <h3>Base Stats:</h3>
     <div id="stats-input">
         HP:          <input type="text" name="hp"><br />
         Attack:      <input type="text" name="atk"><br />

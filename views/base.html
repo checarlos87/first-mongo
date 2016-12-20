@@ -4,6 +4,15 @@
     <link href="style.css" rel="stylesheet" />
 </head>
 <body>
+    <header>
+        <div id="header-div">
+            <a href="/"><h1>Pok&eacute;mon Registry</h1></a>
+            <form id="search-box" action="/search" method="GET">
+                <input type="text" name="pokemon">
+                <input type="submit" value="Search Pok&eacute;mon">
+            </form>
+        </div>
+    </header>
     <div id="main-container">
         {% block content %}
         {% endblock %}
