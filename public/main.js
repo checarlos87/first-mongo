@@ -1,5 +1,6 @@
 function main() {
-    
+    $('input[name=species]').focus()
+
     $('#search-box').on('submit', (ev) => {
         if (!$('input[name=pokemon]').val())
             ev.preventDefault()
@@ -36,6 +37,7 @@ function main() {
             dataType: "json",
             success: (results) => {
                 if (results.status === 'OK') {
+                    $('input[name=species]').focus()
                     $('#register-button').notify(
                         "Pokémon registered successfully!",
                         {
@@ -50,6 +52,7 @@ function main() {
                 else if (results.status === 'error') {
 
                     if (results.message === 'empty key') {
+                        $('input[name=species]').focus()
                         $('#register-button').notify(
                             "All fields are required.",
                             {
@@ -60,6 +63,7 @@ function main() {
                     }
         
                     else if (results.message === 'duplicate') {
+                        $('input[name=species]').focus()
                         $('#register-button').notify(
                             "Error: Pokémon is already registered.",
                             {
@@ -78,19 +82,31 @@ function main() {
 
     $('#delete-button').on('click', (ev) => {
         ev.preventDefault()
-        var answer = confirm('Do you really want to delete this Pokémon?')
-        if (answer) {
-
-            $.ajax({
-                type: "POST",
-                url: $('#delete-button').attr('href'),
-                dataType: "json",
-                success: (results) => {
-                    alert('The Pokémon has been deleted successfully.')
-                    window.location.replace('/')
-                }
-            })
-        }
+        swal({
+                title: "Delete this Pokémon?",
+                text: "This cannot be undone.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Delete",
+                closeOnConfirm: false
+            }, () => {
+                $.ajax({
+                    type: "POST",
+                    url: $('#delete-button').attr('href'),
+                    dataType: "json",
+                    success: (results) => {
+                        swal({
+                                title: "Deleted", 
+                                text: "The Pokémon has been deleted successfully.", 
+                                type:"success"
+                            }, () => {
+                                window.location.replace('/')
+                        })
+                    }
+                })
+            }
+        )
 
     })
 }
