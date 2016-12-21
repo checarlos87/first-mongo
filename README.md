@@ -14,6 +14,10 @@ $ cd restful-pokemon-registry
 $ npm install
 ```
 
+### Example dataset
+
+If you are looking for example data to test this app, you can check out [this gist](https://gist.github.com/checarlos87/2550241194ebdb43e94076977d33983b) which contains a MongoDB export of 151 documents corresponding to the original 151 Kanto Pokémon.
+
 ## Running
 
 Make sure the MongoDB daemon is running.
@@ -74,4 +78,4 @@ Note: The names accepted in \<stat name> are shortened versions of the actual st
 
 ## Search function
 
-The app also provides a search box at the top for searching for Pokémon by name and displaying the results in HTML.  This is meant to provide an alternative, non-RESTful, human-friendly way of viewing data on registered Pokémon.
+The app also provides a search box at the top for searching for Pokémon by name and displaying the results in HTML.  This is meant to provide an alternative, non-RESTful, human-friendly way of viewing data on registered Pokémon.  A Pokémon's search result page is also the only place where Pokémon may be deleted from the database.
