@@ -1,9 +1,16 @@
 const async = require('async')
 const bodyParser = require('body-parser')
 const express = require('express')
+const flash = require('connect-flash')
 const mongoClient = require('mongodb').MongoClient
+const mongoose = require('mongoose')
 const nunjucks = require('nunjucks')
+const passport = require('passport')
+const session = require('express-session')
 const validator = require('validator')
+
+// MongoDB session store.
+const MongoStore = require('connect-mongo')(session)
 
 const app = express()
 nunjucks.configure('views', {
@@ -32,14 +39,25 @@ const TYPES = [
     'Water'
 ]
 
-// Middlewares
+// General Middlewares
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
 
+// Passport Middlewares.
+app.use(session({ 
+    secret: 'surfingpikachuwenttoalola',
+    store: new MongoStore()
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
+
+var mongoUrl = 'mongodb://localhost:27017/restfulpokemon'
 var port = process.argv[2]
 
+// MongoDB setup.
 var db
-mongoClient.connect('mongodb://localhost:27017/restfulpokemon', (err, database) => {
+mongoClient.connect(mongoUrl, (err, database) => {
     if (err) 
         return console.log(err.message)
 
@@ -89,6 +107,9 @@ mongoClient.connect('mongodb://localhost:27017/restfulpokemon', (err, database) 
     }) //async.series
 
 })
+
+// Mongoose setup.
+mongoose.connect(mongoUrl)
 
 // Index. Pokémon Registry form.
 app.get('/', (req, res, next) => {
