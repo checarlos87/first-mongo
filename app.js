@@ -39,77 +39,36 @@ const TYPES = [
     'Water'
 ]
 
+var port = process.argv[2]
+
+var db
+const mongoConf = require('./config/mongodb')
+mongoConf.db()
+    .then((database) => {
+        db = database
+        app.listen(port, () => {
+            console.log("Listening on port " + port)
+        })
+    })
+
+// Mongoose setup.
+//mongoose.connect(mongoUrl)
+
 // General Middlewares
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
+app.use('/api', require('./routes/api')(db))
 
+/*
 // Passport Middlewares.
 app.use(session({ 
     secret: 'surfingpikachuwenttoalola',
-    store: new MongoStore()
+    store: new MongoStore({ db: db })
 }))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
-
-var mongoUrl = 'mongodb://localhost:27017/restfulpokemon'
-var port = process.argv[2]
-
-// MongoDB setup.
-var db
-mongoClient.connect(mongoUrl, (err, database) => {
-    if (err) 
-        return console.log(err.message)
-
-    db = database
-
-    /** 
-        Load API routes
-            Info: 
-                http://stackoverflow.com/a/25125755
-                https://expressjs.com/en/guide/routing.html
-                http://javascript.tutorialhorizon.com/2014/09/20/organizing-your-expressjs-routes-in-separate-files/
-    */
-    app.use('/api', require('./routes/api')(db))
-
-    // Set up db indexes.
-    async.series({
-        species: (callback) => { 
-            db.collection('pokemon').createIndex('species', {unique: true}, (err, index) => {
-
-                if (err)
-                    return callback(err)
-
-                callback(null, index)
-            })
-        },
-
-        type: (callback) => {
-            db.collection('pokemon').createIndex({type1: 'text', type2: 'text'}, (err, index) => {
-
-                if (err)
-                    return callback(err)
-
-                callback(null, index)
-            })
-        },
-
-    }, (err, results) => {
-
-        if (err) {
-            db.close()
-            return console.log(err.message)
-        }
-
-        app.listen(port, () => {
-            console.log("Listening on port " + port)
-        })
-    }) //async.series
-
-})
-
-// Mongoose setup.
-mongoose.connect(mongoUrl)
+*/
 
 // Index. Pokémon Registry form.
 app.get('/', (req, res, next) => {
@@ -144,3 +103,4 @@ app.use((err, req, res, next) => {
     console.log(err.stack)
     res.status(500).send('Something went wrong!')
 })
+
