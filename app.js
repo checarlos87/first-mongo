@@ -64,7 +64,9 @@ mongoConfig.db
         // Passport middlewares.
         app.use(session({ 
             secret: 'surfingpikachuwenttoalola',
-            store: new MongoStore({ db: db })
+            store: new MongoStore({ db: db }),
+            resave: false,
+            saveUninitialized: false
         }))
         app.use(passport.initialize())
         app.use(passport.session())
