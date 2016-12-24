@@ -1,8 +1,6 @@
-const async = require('async')
 const bodyParser = require('body-parser')
 const express = require('express')
 const flash = require('connect-flash')
-const mongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose')
 const nunjucks = require('nunjucks')
 const passport = require('passport')
@@ -41,66 +39,45 @@ const TYPES = [
 
 var port = process.argv[2]
 
+// Local MongoDB configuration.
+const mongoConfig = require('./config/mongodb')
+
+// Mongoose setup.
+mongoose.connect(mongoConfig.mongoUrl)
+
+/* 
+    Configure MongoDB connection.
+    mongoConfig.db returns a promise that is fulfilled once the 
+    database connection is available.
+*/
 var db
-const mongoConf = require('./config/mongodb')
-mongoConf.db()
+mongoConfig.db
     .then((database) => {
         db = database
+
+        /** Load middlewares */
+
+        // General middlewares
+        app.use(express.static('public'))
+        app.use(bodyParser.urlencoded({extended: true}))
+        
+        // Passport middlewares.
+        app.use(session({ 
+            secret: 'surfingpikachuwenttoalola',
+            store: new MongoStore({ db: db })
+        }))
+        app.use(passport.initialize())
+        app.use(passport.session())
+        app.use(flash())
+
+        /** Load rotes */
+
+        app.use('/', require('./routes/main')(db, TYPES))
+        app.use('/api', require('./routes/api')(db))
+
+        /** Start the app */
+
         app.listen(port, () => {
             console.log("Listening on port " + port)
         })
     })
-
-// Mongoose setup.
-//mongoose.connect(mongoUrl)
-
-// General Middlewares
-app.use(express.static('public'))
-app.use(bodyParser.urlencoded({extended: true}))
-app.use('/api', require('./routes/api')(db))
-
-/*
-// Passport Middlewares.
-app.use(session({ 
-    secret: 'surfingpikachuwenttoalola',
-    store: new MongoStore({ db: db })
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(flash())
-*/
-
-// Index. Pokémon Registry form.
-app.get('/', (req, res, next) => {
-    res.render('index.html', {types: TYPES})
-})
-
-// Search Results.
-app.get('/search', (req, res, next) => {
-
-    // Make the first letter of Pokémon name upper-case.
-    if (req.query.pokemon === '')
-        return res.redirect('/')
-
-    var query = req.query.pokemon[0].toUpperCase() + req.query.pokemon.slice(1)
-    db.collection('pokemon').find(
-        {
-            species: query
-        },
-        {
-            _id: 0
-        }
-    ).toArray((err, results) => {
-        
-        if (err)
-            return next(err)
-
-        res.render('search_results.html', {result: results[0]})
-    })
-})
-
-app.use((err, req, res, next) => {
-    console.log(err.stack)
-    res.status(500).send('Something went wrong!')
-})
-

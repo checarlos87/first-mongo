@@ -1,9 +1,10 @@
 const mongoClient = require('mongodb').MongoClient
 
 var mongoUrl = 'mongodb://localhost:27017/restfulpokemon'
-exports.db = () => {
 
-    var database = mongoClient.connect(mongoUrl).then((db) => {
+exports.mongoUrl = mongoUrl
+exports.db = mongoClient.connect(mongoUrl)
+    .then((db) => {
         // Set up db indexes.
         db.collection('pokemon').createIndex('species', {unique: true}, (err, index) => {
     
@@ -21,7 +22,3 @@ exports.db = () => {
         
         return db    
     })
-    
-    return database
-
-}
