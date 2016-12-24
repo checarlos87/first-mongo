@@ -1,11 +1,35 @@
 const express = require('express')
 
-module.exports = (db, TYPES) => {
+module.exports = (db, TYPES, passport) => {
     var router = new express.Router()
 
-    // Index. Pokémon Registry form.
-    router.get('/', (req, res, next) => {
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next()
+        res.redirect('login')
+    }
+
+    // Index. Pokémon Registry form. 
+    // Requires login.
+    router.get('/', isLoggedIn, (req, res, next) => {
         res.render('index.html', {types: TYPES})
+    })
+
+    // Login form.
+    router.get('/login', (req, res, next) => {
+        res.render('login.html', {})
+    })
+
+    // Log in
+    router.post('/login', passport.authenticate('local-signup', {
+        successRedirect: '/',
+        failureRedirect: '/login'
+    }))
+
+    // Log out.
+    router.get('/logout', (req, res, next) => {
+        req.logout()
+        res.redirect('/login')
     })
     
     // Search Results.

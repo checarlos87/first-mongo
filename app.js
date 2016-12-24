@@ -1,6 +1,5 @@
 const bodyParser = require('body-parser')
 const express = require('express')
-const flash = require('connect-flash')
 const mongoose = require('mongoose')
 const nunjucks = require('nunjucks')
 const passport = require('passport')
@@ -42,6 +41,9 @@ var port = process.argv[2]
 // Local MongoDB configuration.
 const mongoConfig = require('./config/mongodb')
 
+// Configure passport.
+require('./config/passport')(passport)
+
 // Mongoose setup.
 mongoose.connect(mongoConfig.mongoUrl)
 
@@ -70,11 +72,10 @@ mongoConfig.db
         }))
         app.use(passport.initialize())
         app.use(passport.session())
-        app.use(flash())
 
         /** Load rotes */
 
-        app.use('/', require('./routes/main')(db, TYPES))
+        app.use('/', require('./routes/main')(db, TYPES, passport))
         app.use('/api', require('./routes/api')(db))
 
         /** Start the app */

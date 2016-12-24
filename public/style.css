@@ -69,7 +69,7 @@ input {
     padding: 2px;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
     background: #ededed;
     border: none;
 }
