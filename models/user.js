@@ -6,9 +6,9 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt-nodejs')
 
-var  userSchema = mongoose.Schema({
+var userSchema = mongoose.Schema({
     local: {
-        username: String,
+        username: { type: String, unique: true },
         password: String
     }
 })
@@ -17,7 +17,9 @@ userSchema.methods.generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8))
 }
 
-userSchema.methods.validPassword = (password) => {
+// Cannot use arrow-function here because of lexical 'this'.
+//    http://stackoverflow.com/a/37365075
+userSchema.methods.validPassword = function (password)  {
     return bcrypt.compareSync(password, this.local.password)
 }
 

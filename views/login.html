@@ -3,11 +3,12 @@
 {% block content %}
     <div id="login-form">
         <h1>Login</h1>
-        <form method="POST">
+        <form action="/login" method="POST">
             Username:
             <input type="text" name="username">
             Password:
             <input type="password" name="password">
+            <input type="submit" value="Login">
         </form>
     </div>
 {% endblock %}

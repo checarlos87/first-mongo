@@ -21,7 +21,7 @@ module.exports = (db, TYPES, passport) => {
     })
 
     // Log in
-    router.post('/login', passport.authenticate('local-signup', {
+    router.post('/login', passport.authenticate('local-login', {
         successRedirect: '/',
         failureRedirect: '/login'
     }))

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const prompt = require('prompt')
 
+mongoose.Promise  = global.Promise
 mongoose.connect(require('./config/mongodb').mongoUrl)
 const User = require('./models/user')
 
@@ -8,8 +9,8 @@ const User = require('./models/user')
 const prompt_schema = {
   properties: {
     username: {
-      pattern: /^[a-zA-Z\s\-]+$/,
-      message: 'Name must be only letters, spaces, or dashes',
+      pattern: /^[a-zA-Z0-9\s\-]+$/,
+      message: 'Name must be only letters, numbers, spaces, or dashes',
       required: true
     },
     password: {
@@ -25,11 +26,16 @@ prompt.get(prompt_schema, (err, result) => {
 
     var newUser = new User()
     newUser.local.username = result.username
-    newUser.local.password = result.password
+    newUser.local.password = newUser.generateHash(result.password)
 
     newUser.save((err) => {
         if (err)
             throw err
-        return "User registered successfully."
+
+        mongoose.disconnect()
+        prompt.stop()
+        return console.log("User registered successfully.")
     })
+
 })
+

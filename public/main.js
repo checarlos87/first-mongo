@@ -1,11 +1,13 @@
 function main() {
     $('input[name=species]').focus()
 
+    // Search Pokémon
     $('#search-box').on('submit', (ev) => {
         if (!$('input[name=pokemon]').val())
             ev.preventDefault()
     })
 
+    // Register Pokémon
     $('#register-form').on('submit', (ev) => {
         ev.preventDefault()
 
@@ -80,6 +82,7 @@ function main() {
         })
     }) // Pokémon register form.
 
+    // Delete Pokémon
     $('#delete-button').on('click', (ev) => {
         ev.preventDefault()
         swal({
@@ -109,6 +112,8 @@ function main() {
         )
 
     })
+
+    
 }
 
 $(document).ready(main)
