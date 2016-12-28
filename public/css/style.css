@@ -8,6 +8,10 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style: none;
+}
+
 header {
     background-color: #70a6ff;
     width: 100%;
@@ -30,9 +34,29 @@ header h1 {
     float: right;
 }
 
-ul {
-    list-style: none;
+#userbar {
+    margin: 0 auto;
+    text-align: right;
+    width: 1100px;
 }
+
+#userbar p {
+    background-color: #03b23a;
+    border-bottom: 1px solid #03b23a;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid #03b23a;
+    border-right: 1px solid #03b23a;
+    color: white;
+    display: inline-block;
+    font-size: 1.08em;
+    margin: 0;
+    padding: 0 5px 2px 5px;
+}
+
+#userbar p a:visited {
+    color: white;
+} 
 
 #main-container {
     margin: 0 auto;

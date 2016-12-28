@@ -21,7 +21,9 @@
                 <li><strong>Speed</strong>: {{ result.spe }}</li>
             </ul>
 
-            <a id="delete-button" href="/api/delete/{{ result.species | lower }}"><input type="button" value="Delete"></a>
+            {% if isAuth%}
+                <a id="delete-button" href="/api/delete/{{ result.species | lower }}"><input type="button" value="Delete"></a>
+            {% endif %}
     
         {% else %}
             <p><em>No results were found.</em></p>

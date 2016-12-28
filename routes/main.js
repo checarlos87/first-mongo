@@ -12,7 +12,7 @@ module.exports = (db, TYPES, passport) => {
     // Index. Pokémon Registry form. 
     // Requires login.
     router.get('/', isLoggedIn, (req, res, next) => {
-        res.render('index.html', {types: TYPES})
+        res.render('index.html', {types: TYPES, username: req.user.local.username})
     })
 
     // Login form.
@@ -55,7 +55,17 @@ module.exports = (db, TYPES, passport) => {
             if (err)
                 return next(err)
     
-            res.render('search_results.html', {result: results[0]})
+            if (req.isAuthenticated())
+                res.render('search_results.html', {
+                    result: results[0], 
+                    isAuth: req.isAuthenticated(), 
+                    username: req.user.local.username
+                })
+            else
+                res.render('search_results.html', {
+                    result: results[0], 
+                    isAuth: req.isAuthenticated(), 
+                })
         })
     })
     

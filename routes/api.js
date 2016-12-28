@@ -3,6 +3,12 @@ const express = require('express')
 module.exports = (db) => {
     var router = express.Router()
 
+    function isLoggedIn(req, res, next) {
+        if (user.isAuthenticated())
+            return next()
+        res.redirect('/')
+    }
+
     /** /pokemon routes **/
 
     // GET all Pokemon
@@ -85,7 +91,7 @@ module.exports = (db) => {
     })
     
     // POST a new Pokemon through an AJAX call
-    router.post('/pokemon', (req, res, next) => {
+    router.post('/pokemon', isLoggedIn, (req, res, next) => {
 
         for (var key in req.body) {
             if (req.body.hasOwnProperty(key))
@@ -135,7 +141,7 @@ module.exports = (db) => {
 
     /** /delete route **/
 
-    router.post('/delete/:species', (req, res, next) => {
+    router.post('/delete/:species', isLoggedIn, (req, res, next) => {
 
         if (!req.xhr)
             return res.resdirect('/')
