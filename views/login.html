@@ -8,7 +8,10 @@
             <input type="text" name="username">
             Password:
             <input type="password" name="password">
-            <input type="submit" value="Login">
+            <input id="login-button" type="submit" value="Login">
         </form>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script src="login.js"></script>
 {% endblock %}

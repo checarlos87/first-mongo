@@ -21,10 +21,12 @@ module.exports = (db, TYPES, passport) => {
     })
 
     // Log in
-    router.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/',
-        failureRedirect: '/login'
-    }))
+    router.post('/login', 
+        passport.authenticate('local-login'),
+        (req, res, next) => {
+            res.json({status: 'OK', message: ''})
+        }
+    )
 
     // Log out.
     router.get('/logout', (req, res, next) => {
