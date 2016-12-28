@@ -9,6 +9,12 @@ module.exports = (db, TYPES, passport) => {
         res.redirect('login')
     }
 
+    function sanitize_username(req, res, next) {
+        if (req.body.username.match(/^[a-zA-Z0-9]+$/))
+            return next()
+        res.sendStatus(400)
+    }
+
     // Index. Pokémon Registry form. 
     // Requires login.
     router.get('/', isLoggedIn, (req, res, next) => {
@@ -22,6 +28,7 @@ module.exports = (db, TYPES, passport) => {
 
     // Log in
     router.post('/login', 
+        sanitize_username,
         passport.authenticate('local-login'),
         (req, res, next) => {
             res.json({status: 'OK', message: ''})

@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const nunjucks = require('nunjucks')
 const passport = require('passport')
 const session = require('express-session')
-const validator = require('validator')
 
 // MongoDB session store.
 const MongoStore = require('connect-mongo')(session)

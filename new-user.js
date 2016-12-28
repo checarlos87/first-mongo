@@ -9,8 +9,8 @@ const User = require('./models/user')
 const prompt_schema = {
   properties: {
     username: {
-      pattern: /^[a-zA-Z0-9\s\-]+$/,
-      message: 'Name must be only letters, numbers, spaces, or dashes',
+      pattern: /^[a-zA-Z0-9]+$/,
+      message: 'Username must contain only letters or and numbers',
       required: true
     },
     password: {
@@ -33,8 +33,8 @@ prompt.get(prompt_schema, (err, result) => {
             throw err
 
         mongoose.disconnect()
-        prompt.stop()
-        return console.log("User registered successfully.")
+        console.log("User registered successfully.")
+        return console.log("Press Ctrl+C to exit.")
     })
 
 })

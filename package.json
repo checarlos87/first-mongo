@@ -1,7 +1,7 @@
 {
-  "name": "first-mongo",
+  "name": "restful-pokemon-registry",
   "version": "0.1.0",
-  "description": "A MongoDB exercise",
+  "description": "An Express app and REST API for registering Pokémon.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,8 +21,7 @@
     "nunjucks": "^3.0.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "prompt": "^1.0.0",
-    "validator": "^6.2.0"
+    "prompt": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
