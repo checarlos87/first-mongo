@@ -4,7 +4,7 @@ module.exports = (db) => {
     var router = express.Router()
 
     function isLoggedIn(req, res, next) {
-        if (user.isAuthenticated())
+        if (req.isAuthenticated())
             return next()
         res.redirect('/')
     }
